@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Onclick测试</title>
+    <style>
+        body {
+            background: #0A0A20;
+            color: #FFF;
+            padding: 50px;
+            font-family: Arial;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            background: linear-gradient(135deg, #0066FF, #00CCFF);
+            border: 2px solid #00CCFF;
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Onclick事件测试</h1>
+    
+    <h3>方法1: 直接onclick</h3>
+    <button onclick="alert('方法1点击成功！')">测试按钮1</button>
+    
+    <h3>方法2: 调用全局函数</h3>
+    <button onclick="testFunction()">测试按钮2</button>
+    
+    <h3>方法3: 安全调用(检查函数存在)</h3>
+    <button onclick="window.testFunction && window.testFunction()">测试按钮3</button>
+    
+    <h3>方法4: 复杂的HTML结构</h3>
+    <button onclick="window.testFunction && window.testFunction()">
+        <span style="pointer-events: none;">
+            <span style="pointer-events: none;">测试按钮4</span>
+        </span>
+    </button>
+    
+    <script>
+        function testFunction() {
+            alert('全局函数调用成功！');
+            console.log('✅ testFunction被调用了');
+        }
+        
+        // 暴露到window
+        window.testFunction = testFunction;
+        
+        console.log('✓ 页面已加载');
+        console.log('✓ window.testFunction =', window.testFunction);
+    </script>
+</body>
+</html>

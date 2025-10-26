@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝色开关按钮测试</title>
+    <style>
+        body {
+            background: #0A0A20;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+        
+        :root {
+            --pulse-blue: #00CCFF;
+            --steel-blue: #4682B4;
+        }
+        
+        h1 {
+            color: var(--pulse-blue);
+            text-shadow: 0 0 20px var(--pulse-blue);
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--pulse-blue);
+            border-radius: 8px;
+        }
+        
+        .test-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+        
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: rgba(100, 100, 100, 0.5);
+            border: 2px solid var(--steel-blue);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer !important;
+            transition: all 0.3s ease;
+            display: inline-block;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #6B7280;
+            border-radius: 50%;
+            top: 1px;
+            left: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toggle-switch:hover {
+            border-color: var(--pulse-blue);
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+        }
+        
+        .toggle-switch.active {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.5), rgba(0, 204, 255, 0.6));
+            border-color: var(--pulse-blue);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+        }
+        
+        .toggle-switch.active::after {
+            left: 26px;
+            background: var(--pulse-blue);
+            box-shadow: 0 0 10px var(--pulse-blue), 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-on {
+            background: rgba(0, 204, 255, 0.3);
+            color: var(--pulse-blue);
+            border: 1px solid var(--pulse-blue);
+        }
+        
+        .status-off {
+            background: rgba(100, 100, 100, 0.3);
+            color: #999;
+            border: 1px solid #666;
+        }
+        
+        .log {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--pulse-blue);
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .log-item {
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            margin: 3px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        
+        .log-item.success {
+            color: var(--pulse-blue);
+            background: rgba(0, 204, 255, 0.1);
+        }
+        
+        .log-item.info {
+            color: #AAA;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔘 蓝色开关按钮测试</h1>
+    
+    <p style="color: #AAA;">✅ 改进：颜色改为蓝色主题，增强点击响应</p>
+    
+    <div class="demo-section">
+        <h3 style="color: var(--pulse-blue);">📋 通知设置</h3>
+        
+        <div class="test-row">
+            <span>课程提醒</span>
+            <div style="display: flex; align-items: center;">
+                <div class="toggle-switch active" data-setting="courseReminder" id="toggle1"></div>
+                <span class="status-indicator status-on" id="status1">已开启</span>
+            </div>
+        </div>
+        
+        <div class="test-row">
+            <span>作业截止提醒</span>
+            <div style="display: flex; align-items: center;">
+                <div class="toggle-switch" data-setting="homeworkReminder" id="toggle2"></div>
+                <span class="status-indicator status-off" id="status2">已关闭</span>
+            </div>
+        </div>
+        
+        <div class="test-row">
+            <span>成绩发布通知</span>
+            <div style="display: flex; align-items: center;">
+                <div class="toggle-switch active" data-setting="gradeNotification" id="toggle3"></div>
+                <span class="status-indicator status-on" id="status3">已开启</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3 style="color: var(--pulse-blue);">🔒 隐私设置</h3>
+        
+        <div class="test-row">
+            <span>显示在线状态</span>
+            <div style="display: flex; align-items: center;">
+                <div class="toggle-switch" data-setting="showOnlineStatus" id="toggle4"></div>
+                <span class="status-indicator status-off" id="status4">已关闭</span>
+            </div>
+        </div>
+        
+        <div class="test-row">
+            <span>允许消息推送</span>
+            <div style="display: flex; align-items: center;">
+                <div class="toggle-switch active" data-setting="allowNotifications" id="toggle5"></div>
+                <span class="status-indicator status-on" id="status5">已开启</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="log">
+        <h3 style="color: var(--pulse-blue); margin-top: 0;">📋 事件日志：</h3>
+        <div id="logContainer"></div>
+    </div>
+    
+    <script>
+        const logContainer = document.getElementById('logContainer');
+        
+        function addLog(message, type = 'info') {
+            const logItem = document.createElement('div');
+            logItem.className = `log-item ${type}`;
+            const time = new Date().toLocaleTimeString();
+            logItem.textContent = `[${time}] ${message}`;
+            logContainer.insertBefore(logItem, logContainer.firstChild);
+            console.log(message);
+        }
+        
+        function updateStatus(toggleId, statusId) {
+            const toggle = document.getElementById(toggleId);
+            const status = document.getElementById(statusId);
+            const isActive = toggle.classList.contains('active');
+            
+            if (isActive) {
+                status.textContent = '已开启';
+                status.className = 'status-indicator status-on';
+            } else {
+                status.textContent = '已关闭';
+                status.className = 'status-indicator status-off';
+            }
+        }
+        
+        // 绑定开关按钮
+        const toggleSwitches = document.querySelectorAll('.toggle-switch');
+        addLog(`✓ 找到 ${toggleSwitches.length} 个开关按钮`, 'success');
+        
+        toggleSwitches.forEach((toggle, index) => {
+            const settingKey = toggle.getAttribute('data-setting');
+            const isActive = toggle.classList.contains('active');
+            const toggleId = toggle.id;
+            const statusId = `status${index + 1}`;
+            
+            addLog(`开关 ${index + 1} (${settingKey}): ${isActive ? 'ON' : 'OFF'}`, 'info');
+            
+            // 点击事件
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const newState = this.classList.contains('active');
+                updateStatus(toggleId, statusId);
+                addLog(`🔘 点击开关 ${index + 1} (${settingKey}): ${newState ? 'ON' : 'OFF'}`, 'success');
+            });
+            
+            // 鼠标悬停
+            toggle.addEventListener('mouseenter', function() {
+                addLog(`🖱️ 鼠标进入开关 ${index + 1}`, 'info');
+            });
+        });
+        
+        addLog('✅ 所有开关已初始化', 'success');
+        addLog('💡 提示：点击开关查看蓝色滑动效果', 'info');
+    </script>
+</body>
+</html>

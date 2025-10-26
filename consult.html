@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线咨询 - 广东理工学院数字神经中枢</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages-style.css">
+</head>
+<body>
+    <div class="neural-background">
+        <canvas id="city-grid"></canvas>
+        <div class="grid-pulse"></div>
+    </div>
+
+    <header class="corporate-header">
+        <div class="hologram-emblem">
+            <svg class="circuit-logo" viewBox="0 0 80 80">
+                <defs>
+                    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0066FF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00CCFF;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="40" cy="40" r="35" stroke="url(#logo-gradient)" stroke-width="2" fill="none"/>
+                <path d="M 20 35 L 40 25 L 60 35 L 60 50 L 40 60 L 20 50 Z" stroke="#0066FF" stroke-width="1.5" fill="rgba(0, 102, 255, 0.1)"/>
+                <circle cx="40" cy="40" r="6" fill="#00CCFF"/>
+            </svg>
+            <div class="laser-scan"></div>
+        </div>
+        
+        <h1 class="institution-title">
+            <span class="title-main">广东理工学院</span>
+            <span class="title-sub">在线咨询系统</span>
+        </h1>
+
+        <div class="system-status">
+            <a href="index.html" class="back-button">🏠 返回主页</a>
+            <div class="digital-clock" id="digitalClock">2025-10-25 14:30:00</div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <section class="main-panel">
+            <div class="led-border-cyan"></div>
+            
+            <h2 class="panel-title">
+                <span class="title-icon">💬</span>
+                智能助手对话
+            </h2>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                您好！我是广东理工学院智能助手。我可以帮您解答关于课程、成绩、选课等问题。请问有什么可以帮助您的？
+                            </div>
+                            <div class="message-time">14:30:15</div>
+                        </div>
+                    </div>
+
+                    <div class="message user">
+                        <div class="message-avatar">👤</div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                我想了解一下本学期的选课时间安排
+                            </div>
+                            <div class="message-time">14:31:20</div>
+                        </div>
+                    </div>
+
+                    <div class="message assistant">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                好的！本学期选课安排如下：<br><br>
+                                📅 第一轮选课：11月1日 09:00 - 11月3日 23:59<br>
+                                📅 第二轮选课：11月5日 09:00 - 11月7日 23:59<br>
+                                📅 补退选阶段：11月10日 09:00 - 11月12日 23:59<br><br>
+                                建议您提前规划好课程，第一轮选课竞争较为激烈。有其他问题吗？
+                            </div>
+                            <div class="message-time">14:31:35</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="输入您的问题...">
+                    <button class="send-btn" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+        </section>
+
+        <aside class="side-panel">
+            <div class="led-border-amber"></div>
+            
+            <h3 class="panel-title">
+                <span class="title-icon">🔥</span>
+                热门问题
+            </h3>
+
+            <div class="task-list">
+                <div class="task-item" onclick="askQuestion('如何查看课程表？')">
+                    <div class="task-status"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">如何查看课程表？</h4>
+                    </div>
+                    <button class="task-action">提问</button>
+                </div>
+
+                <div class="task-item" onclick="askQuestion('成绩什么时候公布？')">
+                    <div class="task-status"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">成绩什么时候公布？</h4>
+                    </div>
+                    <button class="task-action">提问</button>
+                </div>
+
+                <div class="task-item" onclick="askQuestion('如何申请缓考？')">
+                    <div class="task-status"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">如何申请缓考？</h4>
+                    </div>
+                    <button class="task-action">提问</button>
+                </div>
+
+                <div class="task-item" onclick="askQuestion('图书馆开放时间？')">
+                    <div class="task-status"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">图书馆开放时间？</h4>
+                    </div>
+                    <button class="task-action">提问</button>
+                </div>
+
+                <div class="task-item" onclick="askQuestion('如何修改个人信息？')">
+                    <div class="task-status"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">如何修改个人信息？</h4>
+                    </div>
+                    <button class="task-action">提问</button>
+                </div>
+            </div>
+
+            <h3 class="panel-title" style="margin-top: 30px;">
+                <span class="title-icon">📞</span>
+                联系方式
+            </h3>
+
+            <div class="task-list">
+                <div class="task-item">
+                    <div class="task-status" style="background: var(--crt-green);"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">教务处</h4>
+                        <p class="task-time">020-1234-5678</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-status" style="background: var(--crt-green);"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">学工处</h4>
+                        <p class="task-time">020-1234-5679</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-status" style="background: var(--crt-green);"></div>
+                    <div class="task-content">
+                        <h4 class="task-title">技术支持</h4>
+                        <p class="task-time">support@gdlg.edu.cn</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="pages-script.js"></script>
+</body>
+</html>

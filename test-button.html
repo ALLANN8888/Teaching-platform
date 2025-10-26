@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按钮测试</title>
+    <style>
+        body {
+            background: #0A0A20;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+        
+        :root {
+            --electric-blue: #0066FF;
+            --pulse-blue: #00CCFF;
+            --steel-blue: #4682B4;
+        }
+        
+        .industrial-button {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            padding: 0;
+            margin: 20px 0;
+            background: transparent;
+            border: 2px solid var(--electric-blue);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            pointer-events: auto;
+        }
+        
+        .industrial-button:hover {
+            border-color: var(--pulse-blue);
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .button-surface {
+            display: block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 204, 255, 0.2));
+            position: relative;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .button-text {
+            position: relative;
+            z-index: 2;
+            color: #FFF;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        
+        .charge-animation {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 204, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .industrial-button:hover .charge-animation {
+            left: 100%;
+        }
+        
+        .log {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00CCFF;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        
+        .log-item {
+            margin: 5px 0;
+            color: #39FF14;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 按钮点击测试</h1>
+    <p>请点击下面的按钮，查看日志输出：</p>
+    
+    <button class="industrial-button" id="testBtn1">
+        <span class="button-surface">
+            <span class="button-text">测试按钮 1</span>
+            <div class="charge-animation"></div>
+        </span>
+    </button>
+    
+    <button class="industrial-button" id="testBtn2">
+        <span class="button-surface">
+            <span class="button-text">测试按钮 2</span>
+            <div class="charge-animation"></div>
+        </span>
+    </button>
+    
+    <button class="industrial-button" id="testBtn3">
+        <span class="button-surface">
+            <span class="button-text">测试按钮 3</span>
+            <div class="charge-animation"></div>
+        </span>
+    </button>
+    
+    <div class="log">
+        <h3>📋 事件日志：</h3>
+        <div id="logContainer"></div>
+    </div>
+    
+    <script>
+        const logContainer = document.getElementById('logContainer');
+        
+        function addLog(message) {
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            logItem.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(logItem);
+            console.log(message);
+        }
+        
+        // 测试按钮1
+        const testBtn1 = document.getElementById('testBtn1');
+        addLog('✓ 找到测试按钮1');
+        addLog('按钮1样式 pointer-events: ' + window.getComputedStyle(testBtn1).pointerEvents);
+        addLog('按钮1样式 cursor: ' + window.getComputedStyle(testBtn1).cursor);
+        
+        testBtn1.addEventListener('click', function(e) {
+            addLog('🎉 测试按钮1被点击了！');
+            alert('测试按钮1被点击了！');
+        }, true);
+        
+        testBtn1.addEventListener('mouseenter', function() {
+            addLog('🖱️ 鼠标进入测试按钮1');
+        });
+        
+        // 测试按钮2
+        const testBtn2 = document.getElementById('testBtn2');
+        testBtn2.addEventListener('click', function(e) {
+            addLog('🎉 测试按钮2被点击了！');
+            alert('测试按钮2被点击了！');
+        });
+        
+        // 测试按钮3
+        const testBtn3 = document.getElementById('testBtn3');
+        testBtn3.addEventListener('click', function(e) {
+            addLog('🎉 测试按钮3被点击了！');
+            alert('测试按钮3被点击了！');
+        });
+        
+        addLog('✅ 所有按钮事件已绑定');
+    </script>
+</body>
+</html>
