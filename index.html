@@ -3,106 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博朋克登录 - 广东省理工学院</title>
+    <title>广东理工学院 · 教学一体化服务平台 · 数字神经中枢</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 背景城市景观 -->
-    <div class="cyberpunk-bg">
-        <div class="city-skyline"></div>
-        <div class="neon-ads"></div>
-        <canvas id="matrix-rain"></canvas>
+    <!-- 深空背景与城市网格 -->
+    <div class="neural-background">
+        <canvas id="city-grid"></canvas>
+        <div class="grid-pulse"></div>
     </div>
 
-    <!-- 数字粒子效果 -->
-    <div class="digital-particles"></div>
-
-    <!-- 左上角校徽和校名 -->
-    <div class="school-branding">
-        <div class="school-logo hologram">
-            <div class="logo-core">
-                <svg viewBox="0 0 100 100" class="tech-icon">
-                    <circle cx="50" cy="50" r="45" stroke="cyan" stroke-width="2" fill="none"/>
-                    <path d="M 30 40 L 50 30 L 70 40 L 70 60 L 50 70 L 30 60 Z" stroke="cyan" stroke-width="1.5" fill="none"/>
-                    <circle cx="50" cy="50" r="8" fill="cyan"/>
-                    <line x1="50" y1="30" x2="50" y2="42" stroke="cyan" stroke-width="1"/>
-                    <line x1="50" y1="58" x2="50" y2="70" stroke="cyan" stroke-width="1"/>
-                </svg>
-            </div>
+    <!-- 顶层导航 - 企业烙印 -->
+    <header class="corporate-header">
+        <!-- 全息校徽 -->
+        <div class="hologram-emblem">
+            <svg class="circuit-logo" viewBox="0 0 80 80">
+                <defs>
+                    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0066FF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00CCFF;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="40" cy="40" r="35" stroke="url(#logo-gradient)" stroke-width="2" fill="none"/>
+                <path d="M 20 35 L 40 25 L 60 35 L 60 50 L 40 60 L 20 50 Z" stroke="#0066FF" stroke-width="1.5" fill="rgba(0, 102, 255, 0.1)"/>
+                <circle cx="40" cy="40" r="6" fill="#00CCFF"/>
+                <line x1="40" y1="25" x2="40" y2="34" stroke="#0066FF" stroke-width="1.5"/>
+                <line x1="40" y1="46" x2="40" y2="60" stroke="#0066FF" stroke-width="1.5"/>
+                <line x1="20" y1="35" x2="28" y2="40" stroke="#0066FF" stroke-width="1"/>
+                <line x1="52" y1="40" x2="60" y2="35" stroke="#0066FF" stroke-width="1"/>
+            </svg>
+            <div class="laser-scan"></div>
         </div>
-        <div class="school-name neon-text">
-            广东省理工学院
-        </div>
-    </div>
-
-    <!-- 左下角AR图标组 -->
-    <div class="ar-icons-container">
-        <div class="energy-core"></div>
-        <div class="floating-icons">
-            <div class="icon-item gear">⚙</div>
-            <div class="icon-item brain">🧠</div>
-            <div class="icon-item atom">⚛</div>
-            <div class="icon-item lightbulb">💡</div>
-        </div>
-        <svg class="data-stream" width="200" height="200">
-            <path id="stream-path" d="M 100 100 Q 150 80, 180 60" stroke="cyan" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-    </div>
-
-    <!-- 主登录容器 -->
-    <div class="login-container">
-        <!-- 故障艺术标题 -->
-        <h1 class="glitch-title" data-text="用户登录">用户登录</h1>
         
-        <!-- 玻璃面板登录框 -->
-        <div class="glass-panel">
-            <div class="led-border"></div>
-            
-            <form class="login-form">
-                <!-- 用户名 -->
-                <div class="input-group">
-                    <label class="cold-white-label">用户名</label>
-                    <div class="input-wrapper">
-                        <input type="text" class="cyber-input" placeholder="Enter username">
-                        <div class="scan-line"></div>
-                    </div>
-                </div>
+        <!-- 学校标题 - 合金银字体 -->
+        <h1 class="institution-title">
+            <span class="title-main">广东理工学院</span>
+            <span class="title-sub">教学一体化服务平台</span>
+        </h1>
 
-                <!-- 密码 -->
-                <div class="input-group">
-                    <label class="cold-white-label">密码</label>
-                    <div class="input-wrapper">
-                        <input type="password" class="cyber-input" placeholder="Enter password">
-                        <div class="scan-line"></div>
-                    </div>
-                </div>
-
-                <!-- 验证码 -->
-                <div class="input-group captcha-group">
-                    <label class="cold-white-label">验证码</label>
-                    <div class="captcha-container">
-                        <div class="input-wrapper captcha-input-wrapper">
-                            <input type="text" class="cyber-input" placeholder="Enter code">
-                            <div class="scan-line"></div>
-                        </div>
-                        <div class="hologram-captcha">
-                            <canvas id="captcha-canvas"></canvas>
-                            <div class="grid-overlay"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 登录按钮 -->
-                <button type="submit" class="cyber-button">
-                    <span class="button-text">登录系统</span>
-                    <div class="electric-arc"></div>
-                </button>
-            </form>
-
-            <!-- 悬浮车光影效果 -->
-            <div class="flying-car-light"></div>
+        <!-- 右侧系统状态 -->
+        <div class="system-status">
+            <div class="status-indicator online">
+                <span class="status-dot"></span>
+                <span class="status-text">系统在线</span>
+            </div>
+            <div class="digital-clock" id="digitalClock">2025-10-25 14:30:00</div>
         </div>
-    </div>
+    </header>
+
+    <!-- 主体容器 -->
+    <main class="neural-hub">
+        <!-- 左侧导航栏 - 深烟色玻璃面板 -->
+        <aside class="smoke-glass-nav">
+            <div class="led-border-cyan"></div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item active" data-module="personal">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">个人中心</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="learning">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-label">学习管理</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="schedule">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">课程表</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="grades">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">成绩查询</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="consult">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-label">在线咨询</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="resources">
+                    <span class="nav-icon">📦</span>
+                    <span class="nav-label">资源库</span>
+                    <div class="pixel-scan"></div>
+                </div>
+                <div class="nav-item" data-module="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">系统设置</span>
+                    <div class="pixel-scan"></div>
+                </div>
+            </nav>
+
+            <!-- 数据流粒子 -->
+            <div class="nav-data-particles"></div>
+        </aside>
+
+        <!-- 中间主内容区 - 动态切换 -->
+        <section class="frosted-panel main-content-area" id="mainContentArea">
+            <!-- 内容将由JavaScript动态加载 -->
+        </section>
+            <div class="led-border-amber"></div>
+            
+            <h2 class="panel-title">
+                <span class="title-icon">🔐</span>
+                你的数字档案
+            </h2>
+
+            <!-- 3D全息人像 -->
+            <div class="hologram-avatar-container">
+                <div class="avatar-hologram">
+                    <canvas id="avatar3d" width="200" height="200"></canvas>
+                    <div class="data-stream-vertical"></div>
+                </div>
+            </div>
+
+            <!-- 个人信息 -->
+            <div class="personal-data">
+                <div class="data-row">
+                    <span class="data-label">姓名：</span>
+                    <span class="data-value">张三</span>
+                    <span class="encrypt-lock locked">🔒</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">学号：</span>
+                    <span class="data-value">2024001001</span>
+                    <span class="encrypt-lock unlocked">🔓</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">专业：</span>
+                    <span class="data-value">计算机科学与技术</span>
+                    <span class="encrypt-lock locked">🔒</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">班级：</span>
+                    <span class="data-value">计科2401班</span>
+                    <span class="encrypt-lock unlocked">🔓</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">学院：</span>
+                    <span class="data-value">信息工程学院</span>
+                    <span class="encrypt-lock locked">🔒</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">入学年份：</span>
+                    <span class="data-value">2024</span>
+                    <span class="encrypt-lock unlocked">🔓</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 右侧功能区 - 毛玻璃面板(电子绿光带) -->
+        <section class="frosted-panel function-zone">
+            <div class="led-border-green"></div>
+            
+            <!-- 课程表模块 -->
+            <div class="module-container" id="scheduleModule">
+                <h2 class="panel-title">
+                    <span class="title-icon">📋</span>
+                    你的行动协议
+                </h2>
+
+                <!-- 数据矩阵课程表 -->
+                <div class="data-matrix-table">
+                    <table class="cyber-schedule">
+                        <thead>
+                            <tr class="matrix-header">
+                                <th>时间</th>
+                                <th>周一</th>
+                                <th>周二</th>
+                                <th>周三</th>
+                                <th>周四</th>
+                                <th>周五</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-slot">08:00-10:00</td>
+                                <td class="course-cell">
+                                    <span class="course-name">数据结构</span>
+                                    <span class="course-info">A101</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">算法设计</span>
+                                    <span class="course-info">B203</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">操作系统</span>
+                                    <span class="course-info">C305</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">10:20-12:00</td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">计算机网络</span>
+                                    <span class="course-info">A102</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">数据库原理</span>
+                                    <span class="course-info">B205</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">14:00-16:00</td>
+                                <td class="course-cell">
+                                    <span class="course-name">软件工程</span>
+                                    <span class="course-info">C301</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">人工智能</span>
+                                    <span class="course-info">A105</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">云计算技术</span>
+                                    <span class="course-info">B208</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">16:20-18:00</td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">Web开发</span>
+                                    <span class="course-info">D401</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                                <td class="course-cell">
+                                    <span class="course-name">移动开发</span>
+                                    <span class="course-info">D402</span>
+                                </td>
+                                <td class="course-cell empty"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 功能按钮区 -->
+            <div class="function-buttons">
+                <a href="learning.html" class="industrial-button" data-action="learning">
+                    <span class="button-surface">
+                        <span class="button-text">学习管理</span>
+                        <div class="charge-animation"></div>
+                    </span>
+                </a>
+                <a href="consult.html" class="industrial-button" data-action="consult">
+                    <span class="button-surface">
+                        <span class="button-text">在线咨询</span>
+                        <div class="charge-animation"></div>
+                    </span>
+                </a>
+                <a href="resources.html" class="industrial-button" data-action="resources">
+                    <span class="button-surface">
+                        <span class="button-text">资源下载</span>
+                        <div class="charge-animation"></div>
+                    </span>
+                </a>
+                <a href="settings.html" class="industrial-button" data-action="feedback">
+                    <span class="button-surface">
+                        <span class="button-text">意见反馈</span>
+                        <div class="charge-animation"></div>
+                    </span>
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- 底部链接 - 氧化锈色铭文 -->
+    <footer class="base-inscription">
+        <div class="footer-links">
+            <a href="#" class="rust-link">关于我们</a>
+            <span class="separator">|</span>
+            <a href="#" class="rust-link">联系方式</a>
+            <span class="separator">|</span>
+            <a href="#" class="rust-link">隐私政策</a>
+            <span class="separator">|</span>
+            <a href="#" class="rust-link">使用条款</a>
+            <span class="separator">|</span>
+            <a href="#" class="rust-link">技术支持</a>
+        </div>
+        <div class="copyright">
+            © 2025 广东理工学院 | 数字神经中枢系统 v2.0
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
