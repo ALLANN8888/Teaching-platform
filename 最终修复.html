@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最终修复 - 开关按钮</title>
+    <style>
+        body {
+            background: #0A0A20;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00CCFF;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #00CCFF;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .demo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 15px 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+        
+        /* ==================== 核心开关按钮样式 ==================== */
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: rgba(100, 100, 100, 0.5);
+            border: 2px solid #4682B4;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer !important;
+            transition: all 0.3s ease;
+            display: inline-block;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #6B7280;
+            border-radius: 50%;
+            top: 1px;
+            left: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toggle-switch:hover {
+            border-color: #00CCFF;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+        }
+        
+        .toggle-switch.active {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.5), rgba(0, 204, 255, 0.6));
+            border-color: #00CCFF;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+        }
+        
+        .toggle-switch.active::after {
+            left: 26px;
+            background: #00CCFF;
+            box-shadow: 0 0 10px #00CCFF, 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* ==================== 状态指示器 ==================== */
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 15px;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .status-on {
+            background: rgba(0, 204, 255, 0.2);
+            color: #00CCFF;
+            border: 1px solid #00CCFF;
+        }
+        
+        .status-off {
+            background: rgba(100, 100, 100, 0.2);
+            color: #999;
+            border: 1px solid #666;
+        }
+        
+        /* ==================== 测试按钮 ==================== */
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #0066FF, #00CCFF);
+            border: none;
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            box-shadow: 0 0 25px rgba(0, 204, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .reset-button {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+        }
+        
+        /* ==================== 日志区域 ==================== */
+        .log-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00CCFF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .log-item {
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        
+        .log-success {
+            color: #00FF00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+        
+        .log-info {
+            color: #00CCFF;
+        }
+        
+        .log-warning {
+            color: #FFA500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 最终修复 - 开关按钮</h1>
+        
+        <div class="demo-section">
+            <h2 style="color: #00CCFF; margin-top: 0;">📢 通知设置</h2>
+            
+            <div class="demo-row">
+                <span>课程提醒</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle1" data-setting="courseReminder"></div>
+                    <span class="status-indicator status-on" id="status1">ON</span>
+                </div>
+            </div>
+            
+            <div class="demo-row">
+                <span>作业截止提醒</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch" id="toggle2" data-setting="homeworkReminder"></div>
+                    <span class="status-indicator status-off" id="status2">OFF</span>
+                </div>
+            </div>
+            
+            <div class="demo-row">
+                <span>成绩发布通知</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle3" data-setting="gradeNotification"></div>
+                    <span class="status-indicator status-on" id="status3">ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 style="color: #00CCFF; margin-top: 0;">🔒 隐私设置</h2>
+            
+            <div class="demo-row">
+                <span>显示在线状态</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch" id="toggle4" data-setting="showOnlineStatus"></div>
+                    <span class="status-indicator status-off" id="status4">OFF</span>
+                </div>
+            </div>
+            
+            <div class="demo-row">
+                <span>允许消息推送</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle5" data-setting="allowNotifications"></div>
+                    <span class="status-indicator status-on" id="status5">ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 style="color: #00CCFF; margin-top: 0;">🎨 界面设置</h2>
+            
+            <div class="demo-row">
+                <span>动画效果</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle6" data-setting="animationEffects"></div>
+                    <span class="status-indicator status-on" id="status6">ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <button class="test-button" onclick="testAllToggles()">
+            🧪 自动测试所有开关
+        </button>
+        
+        <button class="test-button reset-button" onclick="resetAllToggles()">
+            🔄 重置所有开关
+        </button>
+        
+        <div class="log-area">
+            <h3 style="color: #00CCFF; margin-top: 0;">📋 事件日志</h3>
+            <div id="logContainer"></div>
+        </div>
+    </div>
+    
+    <script>
+        // ==================== 日志系统 ====================
+        const logContainer = document.getElementById('logContainer');
+        
+        function addLog(message, type = 'info') {
+            const logItem = document.createElement('div');
+            logItem.className = `log-item log-${type}`;
+            const time = new Date().toLocaleTimeString();
+            logItem.textContent = `[${time}] ${message}`;
+            logContainer.insertBefore(logItem, logContainer.firstChild);
+            
+            // 限制日志数量
+            if (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+            
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        // ==================== 状态更新 ====================
+        function updateStatus(toggleId, statusId) {
+            const toggle = document.getElementById(toggleId);
+            const status = document.getElementById(statusId);
+            const isActive = toggle.classList.contains('active');
+            
+            if (isActive) {
+                status.textContent = 'ON';
+                status.className = 'status-indicator status-on';
+            } else {
+                status.textContent = 'OFF';
+                status.className = 'status-indicator status-off';
+            }
+        }
+        
+        // ==================== 开关事件绑定 ====================
+        function bindToggleEvents() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            addLog(`找到 ${toggles.length} 个开关按钮`, 'info');
+            
+            toggles.forEach((toggle, index) => {
+                const toggleId = toggle.id;
+                const statusId = `status${index + 1}`;
+                const settingKey = toggle.getAttribute('data-setting');
+                
+                // 方法1: addEventListener (主要方法)
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    updateStatus(toggleId, statusId);
+                    const newState = this.classList.contains('active');
+                    addLog(`🔘 开关${index + 1} (${settingKey}): ${newState ? 'ON' : 'OFF'}`, 'success');
+                });
+                
+                // 方法2: onclick (备用方法)
+                toggle.onclick = function() {
+                    // 防止重复触发
+                    if (!this.classList.contains('processing')) {
+                        this.classList.add('processing');
+                        setTimeout(() => {
+                            this.classList.remove('processing');
+                        }, 100);
+                    }
+                };
+                
+                // 鼠标悬停效果
+                toggle.addEventListener('mouseenter', function() {
+                    addLog(`🖱️ 鼠标进入开关${index + 1} (${settingKey})`, 'info');
+                });
+                
+                // 显示初始状态
+                const initialState = toggle.classList.contains('active');
+                addLog(`初始化开关${index + 1} (${settingKey}): ${initialState ? 'ON' : 'OFF'}`, 'info');
+            });
+            
+            addLog('✅ 所有开关按钮事件绑定完成', 'success');
+        }
+        
+        // ==================== 自动测试 ====================
+        function testAllToggles() {
+            addLog('🧪 开始自动测试所有开关...', 'info');
+            const toggles = document.querySelectorAll('.toggle-switch');
+            
+            toggles.forEach((toggle, index) => {
+                setTimeout(() => {
+                    addLog(`  测试开关${index + 1}...`, 'info');
+                    toggle.click();
+                }, index * 300);
+            });
+            
+            setTimeout(() => {
+                addLog('✅ 自动测试完成', 'success');
+            }, toggles.length * 300 + 500);
+        }
+        
+        // ==================== 重置所有开关 ====================
+        function resetAllToggles() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            toggles.forEach((toggle, index) => {
+                toggle.className = 'toggle-switch';
+                updateStatus(toggle.id, `status${index + 1}`);
+            });
+            addLog('🔄 所有开关已重置为关闭状态', 'warning');
+        }
+        
+        // ==================== 页面加载完成 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 页面加载完成', 'success');
+            bindToggleEvents();
+            addLog('💡 提示：点击开关按钮查看滑动动画效果', 'info');
+        });
+        
+        // 兜底方案：如果DOMContentLoaded没有触发
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindToggleEvents);
+        } else {
+            // DOM已经加载完成
+            setTimeout(bindToggleEvents, 100);
+        }
+    </script>
+</body>
+</html>

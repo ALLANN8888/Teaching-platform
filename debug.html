@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试页面</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0f;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .debug-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(10, 10, 30, 0.7);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .test-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 100, 255, 0.2);
+            border: 1px solid #00d4ff;
+            border-radius: 5px;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        
+        .test-link:hover {
+            background: rgba(0, 200, 255, 0.3);
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>网站调试工具</h1>
+        
+        <h2>文件检查</h2>
+        <div id="fileStatus"></div>
+        
+        <h2>链接测试</h2>
+        <a href="index.html" class="test-link">→ 访问主页面</a>
+        <a href="style.css" class="test-link" target="_blank">→ 查看CSS文件</a>
+        <a href="script.js" class="test-link" target="_blank">→ 查看JavaScript文件</a>
+        
+        <h2>常见问题解决方案</h2>
+        <div class="status success">
+            <strong>✓ 文件路径检查</strong><br>
+            确保所有文件都在GitHub仓库的根目录或正确子目录中
+        </div>
+        
+        <div class="status error">
+            <strong>✗ 大小写敏感问题</strong><br>
+            GitHub Pages区分大小写，确保文件名完全匹配
+        </div>
+        
+        <div class="status success">
+            <strong>✓ 响应式设计</strong><br>
+            已包含viewport meta标签和媒体查询
+        </div>
+        
+        <div class="status error">
+            <strong>✗ 控制台错误</strong><br>
+            按F12打开开发者工具，检查Console和Network选项卡
+        </div>
+    </div>
+
+    <script>
+        // 检查文件是否存在
+        async function checkFileExists(filename) {
+            try {
+                const response = await fetch(filename);
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+        
+        // 更新文件状态显示
+        async function updateFileStatus() {
+            const fileStatus = document.getElementById('fileStatus');
+            fileStatus.innerHTML = '<p>正在检查文件...</p>';
+            
+            const files = ['index.html', 'style.css', 'script.js'];
+            let html = '<h3>文件状态检查:</h3>';
+            
+            for (const file of files) {
+                const exists = await checkFileExists(file);
+                const statusClass = exists ? 'success' : 'error';
+                const statusText = exists ? '✓ 存在' : '✗ 不存在';
+                html += `<div class="status ${statusClass}">${file}: ${statusText}</div>`;
+            }
+            
+            fileStatus.innerHTML = html;
+        }
+        
+        // 页面加载完成后检查文件
+        window.addEventListener('load', updateFileStatus);
+    </script>
+</body>
+</html>

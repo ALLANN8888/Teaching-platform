@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置功能验证</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: var(--deep-space);
+            color: #FFFFFF;
+            font-family: 'Microsoft YaHei', sans-serif;
+            padding: 30px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--pulse-blue);
+            text-align: center;
+            text-shadow: 0 0 20px var(--pulse-blue);
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: rgba(15, 15, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        .test-section h2 {
+            color: var(--pulse-blue);
+            margin-top: 0;
+            text-shadow: 0 0 10px var(--pulse-blue);
+        }
+        
+        .test-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--pulse-blue);
+            border-radius: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        
+        .status-on {
+            background: rgba(0, 204, 255, 0.2);
+            color: var(--pulse-blue);
+            border: 1px solid var(--pulse-blue);
+        }
+        
+        .status-off {
+            background: rgba(100, 100, 100, 0.2);
+            color: #999;
+            border: 1px solid #666;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--electric-blue), var(--pulse-blue));
+            border: none;
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+        }
+        
+        .test-button:hover {
+            background: linear-gradient(135deg, var(--molten-orange), var(--amber-glow));
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .result-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--pulse-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .result-item {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-success {
+            color: var(--crt-green);
+            border-left: 4px solid var(--crt-green);
+        }
+        
+        .result-error {
+            color: var(--neon-pink);
+            border-left: 4px solid var(--neon-pink);
+        }
+        
+        .result-info {
+            color: var(--pulse-blue);
+            border-left: 4px solid var(--pulse-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 系统设置功能验证</h1>
+        
+        <div class="test-section">
+            <h2>📋 测试项目</h2>
+            
+            <div class="test-row">
+                <span>开关按钮点击功能</span>
+                <button class="test-button" onclick="testToggleSwitches()">开始测试</button>
+            </div>
+            
+            <div class="test-row">
+                <span>快捷操作按钮功能</span>
+                <button class="test-button" onclick="testActionButtons()">开始测试</button>
+            </div>
+            
+            <div class="test-row">
+                <span>主题切换功能</span>
+                <button class="test-button" onclick="testThemeSwitching()">开始测试</button>
+            </div>
+        </div>
+        
+        <div class="result-area">
+            <h3 style="color: var(--pulse-blue); margin-top: 0;">📊 测试结果</h3>
+            <div id="resultContainer">
+                <div class="result-item result-info">等待测试开始...</div>
+            </div>
+        </div>
+        
+        <!-- 测试用的开关按钮 -->
+        <div style="display: none;">
+            <div class="toggle-switch active" id="testToggle1" data-setting="testSetting1"></div>
+            <div class="toggle-switch" id="testToggle2" data-setting="testSetting2"></div>
+        </div>
+    </div>
+    
+    <script src="spa-app.js"></script>
+    <script>
+        // 结果容器
+        const resultContainer = document.getElementById('resultContainer');
+        
+        // 添加结果
+        function addResult(message, type = 'info') {
+            const resultItem = document.createElement('div');
+            resultItem.className = `result-item result-${type}`;
+            resultItem.textContent = message;
+            resultContainer.appendChild(resultItem);
+            
+            // 滚动到底部
+            resultContainer.scrollTop = resultContainer.scrollHeight;
+        }
+        
+        // 清空结果
+        function clearResults() {
+            resultContainer.innerHTML = '';
+        }
+        
+        // 测试开关按钮功能
+        function testToggleSwitches() {
+            clearResults();
+            addResult('开始测试开关按钮功能...', 'info');
+            
+            // 创建测试开关按钮
+            const testToggle1 = document.getElementById('testToggle1');
+            const testToggle2 = document.getElementById('testToggle2');
+            
+            if (!testToggle1 || !testToggle2) {
+                addResult('❌ 无法找到测试开关按钮', 'error');
+                return;
+            }
+            
+            // 测试点击功能
+            try {
+                // 模拟点击第一个开关
+                testToggle1.click();
+                const isActive1 = testToggle1.classList.contains('active');
+                addResult(`🔘 开关1点击后状态: ${isActive1 ? 'ON' : 'OFF'}`, isActive1 ? 'success' : 'error');
+                
+                // 模拟点击第二个开关
+                testToggle2.click();
+                const isActive2 = testToggle2.classList.contains('active');
+                addResult(`🔘 开关2点击后状态: ${isActive2 ? 'ON' : 'OFF'}`, isActive2 ? 'success' : 'error');
+                
+                // 再次点击第一个开关
+                testToggle1.click();
+                const isActive3 = testToggle1.classList.contains('active');
+                addResult(`🔘 开关1再次点击后状态: ${isActive3 ? 'ON' : 'OFF'}`, !isActive3 ? 'success' : 'error');
+                
+                addResult('✅ 开关按钮功能测试完成', 'success');
+            } catch (error) {
+                addResult(`❌ 开关按钮测试出错: ${error.message}`, 'error');
+            }
+        }
+        
+        // 测试快捷操作按钮功能
+        function testActionButtons() {
+            clearResults();
+            addResult('开始测试快捷操作按钮功能...', 'info');
+            
+            // 检查全局函数是否存在
+            const functions = [
+                'openChangePasswordModal',
+                'openBindEmailModal',
+                'handleLogout',
+                'editAccountInfo',
+                'initSettings'
+            ];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    addResult(`✅ ${funcName} 函数已正确暴露`, 'success');
+                } else {
+                    addResult(`❌ ${funcName} 函数未找到`, 'error');
+                }
+            });
+            
+            addResult('✅ 快捷操作按钮功能测试完成', 'success');
+        }
+        
+        // 测试主题切换功能
+        function testThemeSwitching() {
+            clearResults();
+            addResult('开始测试主题切换功能...', 'info');
+            
+            // 检查applyTheme函数
+            if (typeof window.applyTheme === 'function') {
+                addResult('✅ applyTheme 函数已正确暴露', 'success');
+                
+                // 测试应用不同主题
+                try {
+                    // 保存原始主题值
+                    const originalPulseBlue = getComputedStyle(document.documentElement).getPropertyValue('--pulse-blue');
+                    
+                    // 应用经典主题
+                    applyTheme('classic');
+                    addResult('🎨 经典主题已应用', 'success');
+                    
+                    // 应用暗黑主题
+                    applyTheme('dark');
+                    addResult('🎨 暗黑主题已应用', 'success');
+                    
+                    // 应用默认主题
+                    applyTheme('cyberpunk');
+                    addResult('🎨 赛博朋克主题已应用', 'success');
+                    
+                    addResult('✅ 主题切换功能测试完成', 'success');
+                } catch (error) {
+                    addResult(`❌ 主题切换测试出错: ${error.message}`, 'error');
+                }
+            } else {
+                addResult('❌ applyTheme 函数未找到', 'error');
+            }
+        }
+        
+        // 页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            addResult('✅ 测试页面加载完成', 'success');
+        });
+    </script>
+</body>
+</html>

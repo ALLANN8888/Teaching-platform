@@ -1,0 +1,659 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    background: #0a0a0f;
+    color: #fff;
+}
+
+/* ========== 背景与氛围 ========== */
+.cyberpunk-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #1a0a2e 0%, #0f0520 50%, #050010 100%);
+    z-index: -1;
+}
+
+.city-skyline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: 
+        radial-gradient(ellipse at 20% 100%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+    background-size: 100% 100%;
+}
+
+.city-skyline::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(90deg, transparent 0%, rgba(255, 0, 255, 0.3) 10%, transparent 10%, transparent 15%, rgba(0, 255, 255, 0.3) 25%, transparent 25%, transparent 35%, rgba(255, 100, 0, 0.3) 40%, transparent 40%),
+        linear-gradient(90deg, transparent 50%, rgba(0, 255, 200, 0.2) 55%, transparent 55%, transparent 70%, rgba(255, 0, 150, 0.2) 75%, transparent 75%, transparent 85%, rgba(100, 200, 255, 0.2) 90%, transparent 90%);
+    background-size: 100% 60%, 100% 80%;
+    background-position: 0 100%, 0 100%;
+    filter: blur(1px);
+}
+
+/* 代码雨 Canvas */
+#matrix-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* 数字粒子 */
+.digital-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(1px 1px at 20% 30%, rgba(0, 255, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 60% 70%, rgba(255, 0, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 80% 10%, rgba(0, 255, 200, 0.3), transparent),
+        radial-gradient(1px 1px at 90% 60%, rgba(255, 100, 0, 0.3), transparent),
+        radial-gradient(1px 1px at 33% 80%, rgba(100, 200, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 15% 90%, rgba(255, 0, 100, 0.3), transparent);
+    background-size: 200% 200%;
+    animation: particle-float 20s ease-in-out infinite;
+}
+
+@keyframes particle-float {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -30px); }
+    66% { transform: translate(-20px, 20px); }
+}
+
+/* ========== 左上角校徽与校名 ========== */
+.school-branding {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    z-index: 100;
+}
+
+.school-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 20px cyan);
+    animation: hologram-flicker 3s ease-in-out infinite;
+}
+
+.logo-core svg {
+    width: 100%;
+    height: 100%;
+    animation: rotate-slow 10s linear infinite;
+}
+
+@keyframes hologram-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.school-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff00ff;
+    text-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 30px #ff00ff,
+        0 0 40px #ff0080;
+    letter-spacing: 3px;
+    animation: neon-flicker 2s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+    0%, 100% { 
+        opacity: 1;
+        text-shadow: 
+            0 0 10px #ff00ff,
+            0 0 20px #ff00ff,
+            0 0 30px #ff00ff,
+            0 0 40px #ff0080;
+    }
+    10%, 30%, 50%, 70%, 90% { 
+        opacity: 0.9;
+        text-shadow: 
+            0 0 5px #ff00ff,
+            0 0 10px #ff00ff;
+    }
+    20%, 40%, 60%, 80% { 
+        opacity: 1;
+        text-shadow: 
+            0 0 15px #ff00ff,
+            0 0 30px #ff00ff,
+            0 0 45px #ff00ff;
+    }
+}
+
+/* ========== 左下角AR图标 ========== */
+.ar-icons-container {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    width: 200px;
+    height: 200px;
+    z-index: 100;
+}
+
+.energy-core {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 70px;
+    top: 70px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.8) 0%, rgba(0, 100, 255, 0.4) 50%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-energy 2s ease-in-out infinite;
+    box-shadow: 
+        0 0 20px rgba(0, 200, 255, 0.8),
+        0 0 40px rgba(0, 200, 255, 0.6),
+        inset 0 0 20px rgba(0, 200, 255, 0.5);
+}
+
+@keyframes pulse-energy {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+.floating-icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.icon-item {
+    position: absolute;
+    font-size: 30px;
+    animation: float-rotate 8s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px cyan);
+}
+
+.gear {
+    top: 20px;
+    left: 100px;
+    animation-delay: 0s;
+}
+
+.brain {
+    top: 80px;
+    left: 150px;
+    animation-delay: 2s;
+}
+
+.atom {
+    top: 140px;
+    left: 100px;
+    animation-delay: 4s;
+}
+
+.lightbulb {
+    top: 80px;
+    left: 30px;
+    animation-delay: 6s;
+}
+
+@keyframes float-rotate {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-15px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+.data-stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    animation: stream-flow 3s linear infinite;
+}
+
+@keyframes stream-flow {
+    0% { 
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+    }
+    100% { 
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ========== 主登录容器 ========== */
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+/* 故障艺术标题 */
+.glitch-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ff0080;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    text-shadow: 
+        0 0 10px #ff0080,
+        0 0 20px #ff0080,
+        0 0 30px #ff0080;
+    animation: glitch-animation 3s infinite;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch-title::before {
+    left: 2px;
+    text-shadow: -2px 0 #00ffff;
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch-title::after {
+    left: -2px;
+    text-shadow: -2px 0 #ff00ff;
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-animation {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(12px, 9999px, 71px, 0); }
+    10% { clip: rect(78px, 9999px, 45px, 0); }
+    20% { clip: rect(33px, 9999px, 90px, 0); }
+    30% { clip: rect(56px, 9999px, 23px, 0); }
+    40% { clip: rect(91px, 9999px, 67px, 0); }
+    50% { clip: rect(45px, 9999px, 12px, 0); }
+    60% { clip: rect(67px, 9999px, 89px, 0); }
+    70% { clip: rect(23px, 9999px, 56px, 0); }
+    80% { clip: rect(89px, 9999px, 34px, 0); }
+    90% { clip: rect(34px, 9999px, 78px, 0); }
+    100% { clip: rect(56px, 9999px, 12px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(65px, 9999px, 23px, 0); }
+    10% { clip: rect(12px, 9999px, 89px, 0); }
+    20% { clip: rect(78px, 9999px, 45px, 0); }
+    30% { clip: rect(34px, 9999px, 67px, 0); }
+    40% { clip: rect(56px, 9999px, 12px, 0); }
+    50% { clip: rect(89px, 9999px, 56px, 0); }
+    60% { clip: rect(23px, 9999px, 78px, 0); }
+    70% { clip: rect(67px, 9999px, 34px, 0); }
+    80% { clip: rect(45px, 9999px, 90px, 0); }
+    90% { clip: rect(90px, 9999px, 23px, 0); }
+    100% { clip: rect(12px, 9999px, 67px, 0); }
+}
+
+/* ========== 玻璃面板登录框 ========== */
+.glass-panel {
+    position: relative;
+    width: 450px;
+    padding: 50px 40px;
+    background: rgba(10, 10, 30, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 32px 0 rgba(0, 255, 255, 0.2),
+        inset 0 0 20px rgba(0, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+/* LED边框 */
+.led-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #00ffff;
+    border-radius: 20px;
+    box-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        inset 0 0 10px rgba(0, 255, 255, 0.2);
+    animation: led-pulse 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes led-pulse {
+    0%, 100% { 
+        opacity: 1;
+        box-shadow: 
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            inset 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+    50% { 
+        opacity: 0.7;
+        box-shadow: 
+            0 0 15px #00ffff,
+            0 0 30px #00ffff,
+            inset 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+}
+
+/* ========== 表单样式 ========== */
+.login-form {
+    position: relative;
+    z-index: 2;
+}
+
+.input-group {
+    margin-bottom: 30px;
+}
+
+.cold-white-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e0f0ff;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(224, 240, 255, 0.5);
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.cyber-input {
+    width: 100%;
+    padding: 15px;
+    background: #000;
+    border: 1px solid #00d4ff;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    transition: all 0.3s ease;
+    caret-color: #ff6600;
+}
+
+.cyber-input::placeholder {
+    color: #555;
+}
+
+.cyber-input:focus {
+    border-color: #ff6600;
+    box-shadow: 
+        0 0 10px rgba(255, 102, 0, 0.5),
+        inset 0 0 10px rgba(255, 102, 0, 0.1);
+}
+
+.cyber-input:focus + .scan-line {
+    animation: scan-down 1.5s ease-in-out;
+}
+
+/* 扫描线 */
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    opacity: 0;
+}
+
+@keyframes scan-down {
+    0% {
+        top: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+/* 验证码容器 */
+.captcha-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.captcha-input-wrapper {
+    flex: 1;
+}
+
+.hologram-captcha {
+    position: relative;
+    width: 140px;
+    height: 50px;
+    background: #000;
+    border: 1px solid #00d4ff;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#captcha-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0, 212, 255, 0.1) 4px, rgba(0, 212, 255, 0.1) 5px),
+        repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0, 212, 255, 0.1) 4px, rgba(0, 212, 255, 0.1) 5px);
+    pointer-events: none;
+    animation: grid-shift 10s linear infinite;
+}
+
+@keyframes grid-shift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(5px, 5px); }
+}
+
+/* ========== 登录按钮 ========== */
+.cyber-button {
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #ff6600;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 10px rgba(255, 102, 0, 0.3),
+        inset 0 0 10px rgba(255, 102, 0, 0.1);
+}
+
+.cyber-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6600, #ff9900, #ff6600);
+    border-radius: 5px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cyber-button:hover {
+    background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
+    box-shadow: 
+        0 0 20px rgba(255, 102, 0, 0.8),
+        0 0 40px rgba(255, 102, 0, 0.5),
+        inset 0 0 20px rgba(255, 150, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.cyber-button:hover::before {
+    opacity: 1;
+    animation: button-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes button-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.button-text {
+    position: relative;
+    z-index: 2;
+}
+
+.electric-arc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 3%),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 3%);
+    transition: opacity 0.3s ease;
+}
+
+.cyber-button:hover .electric-arc {
+    opacity: 1;
+    animation: arc-spark 0.5s ease-in-out infinite;
+}
+
+@keyframes arc-spark {
+    0%, 100% { 
+        background-position: 20% 50%, 80% 50%;
+    }
+    50% { 
+        background-position: 25% 45%, 75% 55%;
+    }
+}
+
+/* ========== 悬浮车光影 ========== */
+.flying-car-light {
+    position: absolute;
+    top: 20%;
+    left: -100px;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.8), transparent);
+    filter: blur(2px);
+    opacity: 0;
+    animation: car-passing 8s ease-in-out infinite;
+}
+
+@keyframes car-passing {
+    0% {
+        left: -100px;
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    50% {
+        left: 50%;
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        left: calc(100% + 100px);
+        opacity: 0;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .glass-panel {
+        width: 90%;
+        padding: 30px 20px;
+    }
+    
+    .school-branding {
+        top: 20px;
+        left: 20px;
+    }
+    
+    .school-name {
+        font-size: 18px;
+    }
+    
+    .ar-icons-container {
+        bottom: 20px;
+        left: 20px;
+        transform: scale(0.7);
+    }
+    
+    .glitch-title {
+        font-size: 32px;
+    }
+}

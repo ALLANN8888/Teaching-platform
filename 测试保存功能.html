@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试保存功能</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: var(--deep-space);
+            color: #FFFFFF;
+            font-family: 'Microsoft YaHei', sans-serif;
+            padding: 30px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--pulse-blue);
+            text-align: center;
+            text-shadow: 0 0 20px var(--pulse-blue);
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: rgba(15, 15, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        .test-section h2 {
+            color: var(--pulse-blue);
+            margin-top: 0;
+            text-shadow: 0 0 10px var(--pulse-blue);
+        }
+        
+        .test-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--pulse-blue);
+            border-radius: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        
+        .status-on {
+            background: rgba(0, 204, 255, 0.2);
+            color: var(--pulse-blue);
+            border: 1px solid var(--pulse-blue);
+        }
+        
+        .status-off {
+            background: rgba(100, 100, 100, 0.2);
+            color: #999;
+            border: 1px solid #666;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--electric-blue), var(--pulse-blue));
+            border: none;
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+        }
+        
+        .test-button:hover {
+            background: linear-gradient(135deg, var(--molten-orange), var(--amber-glow));
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .result-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--pulse-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .result-item {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-success {
+            color: var(--crt-green);
+            border-left: 4px solid var(--crt-green);
+        }
+        
+        .result-error {
+            color: var(--neon-pink);
+            border-left: 4px solid var(--neon-pink);
+        }
+        
+        .result-info {
+            color: var(--pulse-blue);
+            border-left: 4px solid var(--pulse-blue);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .nav-button {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #666, #888);
+            border: none;
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #888, #AAA);
+            box-shadow: 0 0 15px rgba(150, 150, 150, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 测试保存功能</h1>
+        
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="window.location.href='../index.html'">← 返回登录页面</button>
+            <button class="nav-button" onclick="window.location.href='app.html'">→ 进入主应用</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>📢 通知设置</h2>
+            
+            <div class="test-row">
+                <span>课程提醒</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle1" data-setting="courseReminder"></div>
+                    <span class="status-indicator status-on" id="status1">ON</span>
+                </div>
+            </div>
+            
+            <div class="test-row">
+                <span>作业截止提醒</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch" id="toggle2" data-setting="homeworkReminder"></div>
+                    <span class="status-indicator status-off" id="status2">OFF</span>
+                </div>
+            </div>
+            
+            <div class="test-row">
+                <span>成绩发布通知</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle3" data-setting="gradeNotification"></div>
+                    <span class="status-indicator status-on" id="status3">ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔒 隐私设置</h2>
+            
+            <div class="test-row">
+                <span>显示在线状态</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch" id="toggle4" data-setting="showOnlineStatus"></div>
+                    <span class="status-indicator status-off" id="status4">OFF</span>
+                </div>
+            </div>
+            
+            <div class="test-row">
+                <span>允许消息推送</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle5" data-setting="allowNotifications"></div>
+                    <span class="status-indicator status-on" id="status5">ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎨 界面设置</h2>
+            
+            <div class="test-row">
+                <span>动画效果</span>
+                <div style="display: flex; align-items: center;">
+                    <div class="toggle-switch active" id="toggle6" data-setting="animationEffects"></div>
+                    <span class="status-indicator status-on" id="status6">ON</span>
+                </div>
+            </div>
+            
+            <div class="test-row">
+                <span>主题模式</span>
+                <select id="themeSelect" style="padding: 8px 12px; background: rgba(0, 0, 0, 0.5); border: 2px solid var(--steel-blue); border-radius: 5px; color: #FFFFFF; font-size: 14px; cursor: pointer;">
+                    <option value="cyberpunk">赛博朋克(默认)</option>
+                    <option value="classic">经典蓝色</option>
+                    <option value="dark">暗黑模式</option>
+                </select>
+            </div>
+        </div>
+        
+        <button class="test-button" onclick="initializeTest()">
+            🚀 初始化测试环境
+        </button>
+        
+        <button class="test-button" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53);" onclick="resetAll()">
+            🔄 重置所有设置
+        </button>
+        
+        <div class="result-area">
+            <h3 style="color: var(--pulse-blue); margin-top: 0;">📊 测试结果</h3>
+            <div id="resultContainer">
+                <div class="result-item result-info">等待测试开始...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="spa-app.js"></script>
+    <script>
+        // 日志系统
+        const logContainer = document.getElementById('resultContainer');
+        
+        function addLog(message, type = 'info') {
+            const logItem = document.createElement('div');
+            logItem.className = `result-item result-${type}`;
+            const time = new Date().toLocaleTimeString();
+            logItem.textContent = `[${time}] ${message}`;
+            logContainer.insertBefore(logItem, logContainer.firstChild);
+            
+            // 限制日志数量
+            if (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+            
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        // 通知函数已移除，仅在系统设置模块中使用
+        
+        // 状态更新
+        function updateStatus(toggleId, statusId) {
+            const toggle = document.getElementById(toggleId);
+            const status = document.getElementById(statusId);
+            const isActive = toggle.classList.contains('active');
+            
+            if (isActive) {
+                status.textContent = 'ON';
+                status.className = 'status-indicator status-on';
+            } else {
+                status.textContent = 'OFF';
+                status.className = 'status-indicator status-off';
+            }
+        }
+        
+        // 应用主题
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            
+            if (theme === 'classic') {
+                // 经典蓝色主题
+                root.style.setProperty('--pulse-blue', '#1E90FF');
+                root.style.setProperty('--electric-blue', '#4169E1');
+                root.style.setProperty('--crt-green', '#32CD32');
+            } else if (theme === 'dark') {
+                // 暗黑模式
+                root.style.setProperty('--pulse-blue', '#4A90E2');
+                root.style.setProperty('--electric-blue', '#2E5C8A');
+                root.style.setProperty('--crt-green', '#50C878');
+            } else {
+                // 赛博朋克默认主题
+                root.style.setProperty('--pulse-blue', '#00CCFF');
+                root.style.setProperty('--electric-blue', '#0066FF');
+                root.style.setProperty('--crt-green', '#39FF14');
+            }
+            
+            addLog(`🎨 主题已切换为: ${theme}`, 'success');
+        }
+        
+        // 保存设置到localStorage
+        function saveSettings(showNotification = true) {
+            const settings = {};
+            
+            // 保存开关状态
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                const settingKey = toggle.getAttribute('data-setting');
+                if (settingKey) {
+                    settings[settingKey] = toggle.classList.contains('active');
+                }
+            });
+            
+            // 保存主题
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect) {
+                settings.theme = themeSelect.value;
+                applyTheme(themeSelect.value);
+            }
+            
+            localStorage.setItem('systemSettings', JSON.stringify(settings));
+            addLog('✓ 设置已保存！', 'success');
+            
+            // 显示保存成功的提示
+            if (showNotification && window.showNotification) {
+                showNotification('✓ 设置已保存！', 'success');
+            } else if (showNotification) {
+                alert('✓ 设置已保存！');
+            }
+        }
+        
+        // 从localStorage加载设置
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('systemSettings') || '{}');
+            addLog(`📥 加载设置: ${JSON.stringify(settings)}`, 'info');
+            
+            // 加载开关状态
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                const settingKey = toggle.getAttribute('data-setting');
+                if (settingKey) {
+                    // 先移除所有开关的active类
+                    toggle.classList.remove('active');
+                    // 如果设置中保存为true，则添加active类
+                    if (settings[settingKey]) {
+                        toggle.classList.add('active');
+                    }
+                }
+            });
+            
+            // 加载主题
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect && settings.theme) {
+                themeSelect.value = settings.theme;
+                applyTheme(settings.theme);
+            }
+            
+            // 更新状态显示
+            for (let i = 1; i <= 6; i++) {
+                const toggleId = `toggle${i}`;
+                const statusId = `status${i}`;
+                const toggle = document.getElementById(toggleId);
+                if (toggle) {
+                    updateStatus(toggleId, statusId);
+                }
+            }
+            
+            addLog('✅ 设置加载完成', 'success');
+        }
+        
+        // 初始化测试环境
+        function initializeTest() {
+            addLog('🚀 开始初始化测试环境...', 'info');
+            
+            // 绑定开关按钮事件
+            const toggles = document.querySelectorAll('.toggle-switch');
+            addLog(`找到 ${toggles.length} 个开关按钮`, 'info');
+            
+            toggles.forEach((toggle, index) => {
+                const toggleId = toggle.id;
+                const statusId = `status${index + 1}`;
+                const settingKey = toggle.getAttribute('data-setting');
+                
+                // 清除旧事件
+                const newToggle = toggle.cloneNode(true);
+                toggle.parentNode.replaceChild(newToggle, toggle);
+                
+                // 添加新事件
+                newToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    updateStatus(toggleId, statusId);
+                    const newState = this.classList.contains('active');
+                    addLog(`🔘 开关 ${settingKey}: ${newState ? 'ON' : 'OFF'}`, 'success');
+                    
+                    // 自动保存设置
+                    saveSettings(false);
+                });
+                
+                // 鼠标悬停
+                newToggle.addEventListener('mouseenter', function() {
+                    addLog(`🖱️ 鼠标进入开关 ${settingKey}`, 'info');
+                });
+                
+                // 显示初始状态
+                const initialState = newToggle.classList.contains('active');
+                addLog(`初始化开关 ${settingKey}: ${initialState ? 'ON' : 'OFF'}`, 'info');
+            });
+            
+            // 保存按钮已移除
+            
+            // 绑定主题选择事件
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect) {
+                themeSelect.addEventListener('change', function() {
+                    addLog('🎨 主题已更改', 'info');
+                    // 自动保存设置
+                    saveSettings(false);
+                });
+                addLog('✅ 主题选择事件绑定完成', 'success');
+            }
+            
+            addLog('🎉 测试环境初始化完成！', 'success');
+            addLog('💡 现在可以测试所有功能了', 'info');
+        }
+        
+        // 重置所有设置
+        function resetAll() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            toggles.forEach((toggle, index) => {
+                // 根据默认状态设置
+                if (index === 0 || index === 2 || index === 4 || index === 5) {
+                    // courseReminder, gradeNotification, animationEffects, allowNotifications 默认为 ON
+                    toggle.className = 'toggle-switch active';
+                } else {
+                    // homeworkReminder, showOnlineStatus 默认为 OFF
+                    toggle.className = 'toggle-switch';
+                }
+                updateStatus(toggle.id, `status${index + 1}`);
+            });
+            
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect) {
+                themeSelect.value = 'cyberpunk';
+                applyTheme('cyberpunk');
+            }
+            
+            // 清除localStorage中的设置
+            localStorage.removeItem('systemSettings');
+            addLog('🔄 所有设置已重置', 'warning');
+        }
+        
+        // 页面加载完成时加载设置
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('✅ 页面加载完成', 'success');
+        });
+    </script>
+</body>
+</html>
